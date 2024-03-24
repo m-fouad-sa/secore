@@ -1,0 +1,9 @@
+-r base.txt
+
+psycopg2==2.9.9
+flake8==7.0.0
+black==24.3.0
+isort==5.13.2
+argh==0.31.2
+PyYAML==6.0.1
+watchdog==4.0.0
