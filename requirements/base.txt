@@ -25,3 +25,4 @@ PyJWT==2.8.0
 django-haystack==3.2.1
 Whoosh==2.7.4
 drf-haystack==1.8.13
+whitenoise==6.6.0

@@ -19,7 +19,7 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib,site"
+    #"django.contrib,site"
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
@@ -84,10 +84,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.wsgi.application"
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ROOT_DIR / 'db.sqlite3',
+    }
+}
+'''
 # Database
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
+'''
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
@@ -158,8 +165,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_URLS_REGEX = r"^/api/.*$"
 
-AUTH_USER_MODEL = "users.User"
+#AUTH_USER_MODEL = "users.User"
 
+'''
 CELERY_BROKER_URL = env("CELERY_BROKER")
 CELERY_RESULT_BACKEND = env("CELERY_BACKEND")
 CELERY_TIMEZONE = "Europe/London"
@@ -208,7 +216,7 @@ DJOSER = {
         "user_delete": "djoser.serializers.UserDeleteSerializer",
     },
 }
-
+'''
 HAYSTACK_CONNECTIONS = {
     "default": {
         "ENGINE": "haystack.backends.whoosh_backend.WhooshEngine",
