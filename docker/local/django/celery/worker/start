@@ -3,4 +3,4 @@
 set -o errexit
 set -o nounset
 
-watchmedo auto-restart -d api_live/ -p '*.py' -- celery -A api_live worker --loglevel=info
+watchmedo auto-restart -d api/ -p '*.py' -- celery -A api worker --loglevel=info

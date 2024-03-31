@@ -17,4 +17,4 @@ EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
 EMAIL_PORT = env("EMAIL_PORT")
 DEFAULT_FROM_EMAIL = "m.fouad.sa@outlook.com"
 DOMAIN = env("DOMAIN")
-SITE_NAME = "api"
+SITE_NAME = "Secore Backend"
