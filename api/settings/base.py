@@ -84,6 +84,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.wsgi.application"
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -91,10 +92,11 @@ DATABASES = {
     }
 }
 '''
+
 # Database
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
-'''
+
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
@@ -167,7 +169,7 @@ CORS_URLS_REGEX = r"^/api/.*$"
 
 #AUTH_USER_MODEL = "users.User"
 
-'''
+
 CELERY_BROKER_URL = env("CELERY_BROKER")
 CELERY_RESULT_BACKEND = env("CELERY_BACKEND")
 CELERY_TIMEZONE = "Europe/London"
@@ -183,6 +185,7 @@ REST_FRAMEWORK = {
     ),
 }
 
+'''
 from datetime import timedelta
 
 SIMPLE_JWT = {
