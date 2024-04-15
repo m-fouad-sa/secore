@@ -11,7 +11,7 @@ schema_view = get_schema_view(
       default_version='v1',
       description="Test description",
       contact=openapi.Contact(email="m.fouad.sa@outlook.com"),
-      license=openapi.License(name="SECORE License"),
+      license=openapi.License(name="Secure License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
@@ -25,6 +25,6 @@ urlpatterns = [
     
 ]
 
-admin.site.site_header = "API Admin"
-admin.site.site_title = "API Admin Portal"
-admin.site.index_title = "Welcome to the API Portal"
+admin.site.site_header = "Secure Backend Admin Site"
+admin.site.site_title = "Secure Backend Portal"
+admin.site.index_title = "Welcome to the Secure Portal"
