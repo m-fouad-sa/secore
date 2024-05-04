@@ -42,15 +42,15 @@ class Security_Requirement(models.Model):
     pkid=models.BigAutoField(primary_key=True, editable=False)
     name=models.CharField(max_length=255)
     control_question=models.TextField()
-    weight=models.IntegerField(max_length=2)
+    weight=models.IntegerField()
 
 
 class Security_Vulnerability(models.Model):
     pkid=models.BigAutoField(primary_key=True, editable=False)
     name=models.CharField(max_length=255)
     control_question=models.TextField()
-    likelihood=models.IntegerField(max_length=2)
-    impact=models.IntegerField(max_length=2)
+    likelihood=models.IntegerField()
+    impact=models.IntegerField()
 
 class Test_Case(models.Model):
     pkid=models.BigAutoField(primary_key=True, editable=False)
