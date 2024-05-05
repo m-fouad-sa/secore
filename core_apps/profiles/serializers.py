@@ -2,11 +2,13 @@ from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Profile
-User =get_user_model
+
+User = get_user_model
+
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username",read_only=True)
-    email = serializers.EmailField(source="user.email",read_only=True)
+    username = serializers.CharField(source="user.username", read_only=True)
+    email = serializers.EmailField(source="user.email", read_only=True)
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
     full_name = serializers.SerializerMethodField()
@@ -37,10 +39,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_profile_photo(self, obj):
         return obj.profile_photo.url
-    
-    
 
-    
+
 class UpdateProfileSerializer(serializers.ModelSerializer):
     country = CountryField(name_only=True)
     first_name = serializers.CharField(source="user.first_name")
@@ -57,15 +57,16 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             "gender",
             "country",
             "city",
-            ]
-        
+        ]
+
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user', {})
+
+        user_data = validated_data.pop("user", {})
         user_instance = instance.user
 
         # Update first_name and last_name in the User model
-        user_instance.first_name = user_data.get('first_name', user_instance.first_name)
-        user_instance.last_name = user_data.get('last_name', user_instance.last_name)
+        user_instance.first_name = user_data.get("first_name", user_instance.first_name)
+        user_instance.last_name = user_data.get("last_name", user_instance.last_name)
         user_instance.save()
 
         # Update other fields in UserProfile model if needed
@@ -73,4 +74,4 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
 
-        return instance        
+        return instance

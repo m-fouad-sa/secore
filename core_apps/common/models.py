@@ -4,69 +4,66 @@ from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
-ex_validator = FileExtensionValidator(['pdf','doc'])
+ex_validator = FileExtensionValidator(["pdf", "doc"])
 # Create your models here.
 
+
 class Project(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
     description = models.TextField()
 
 
-
-
 class Attachment(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=64)
-    attachment=models.FileField(upload_to='attachment/',validators=[ex_validator])
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=64)
+    attachment = models.FileField(upload_to="attachment/", validators=[ex_validator])
     description = models.TextField()
 
 
 class System(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
-    system_information=models.TextField()
-    security_concern=models.TextField()
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
+    system_information = models.TextField()
+    security_concern = models.TextField()
 
 
 class Domain(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
+
 
 class Status(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
 
 
 class Security_Requirement(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
-    control_question=models.TextField()
-    weight=models.IntegerField()
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
+    control_question = models.TextField()
+    weight = models.IntegerField()
 
 
 class Security_Vulnerability(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
-    control_question=models.TextField()
-    likelihood=models.IntegerField()
-    impact=models.IntegerField()
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
+    control_question = models.TextField()
+    likelihood = models.IntegerField()
+    impact = models.IntegerField()
+
 
 class Test_Case(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
-    tag=models.CharField(max_length=255)
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
+    tag = models.CharField(max_length=255)
     description = models.TextField()
-    note=models.TextField()
+    note = models.TextField()
 
 
 class Category(models.Model):
-    pkid=models.BigAutoField(primary_key=True, editable=False)
-    name=models.CharField(max_length=255)
-
-
-
-
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=255)
 
 
 class TimeStampedUUIDModel(models.Model):

@@ -7,10 +7,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 APPS_DIR = ROOT_DIR / "core_apps"
 
 
-
-DEBUG = env.bool("DJANGO_DEBUG",False)
-
-
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
 
 # Application definition
@@ -19,7 +16,7 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    #"django.contrib.site",
+    # "django.contrib.site",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
@@ -84,14 +81,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "api.wsgi.application"
 
-'''
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ROOT_DIR / 'db.sqlite3',
     }
 }
-'''
+"""
 
 # Database
 DATABASES = {"default": env.db("DATABASE_URL")}
@@ -104,7 +101,6 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
-
 
 
 # Password validation
