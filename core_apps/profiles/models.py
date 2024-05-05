@@ -14,7 +14,7 @@ class Profile(TimeStampedUUIDModel):
         MALE = "male", _("male")
         FEMALE = "female", _("female")
         OTHER = "other", _("other")
-
+    
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     phone_number = PhoneNumberField(
         verbose_name=_("phone number"), max_length=30, default="+250784123456"
