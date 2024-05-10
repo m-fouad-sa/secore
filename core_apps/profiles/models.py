@@ -46,28 +46,32 @@ class Profile(TimeStampedUUIDModel):
     city = models.CharField(
         verbose_name=_("city"),
         max_length=180,
-        default="Nairobi",
+        default="Damascus",
         blank=False,
         null=False,
     )
+
     profile_photo = models.ImageField(
         verbose_name=_("profile photo"), default="/profile_default.png"
     )
+    company = models.OneToOneField(
+        "Company",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
-        return f"{self.user.username}'s profile"
+        return f"{self.user.first_name} {self.user.last_name} {self.user.email}"
 
 
 class Company(models.Model):
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=100)
     country = CountryField(
-        verbose_name=_("country"), default="UK", blank=False, null=False
-    )
-    web_url = models.URLField(max_length=200)
-    user_profile = models.OneToOneField(
-        "Profile", on_delete=models.CASCADE, primary_key=True
-    )
-    # Add other fields related to the Company model
+        verbose_name=_("country"), default="UK", blank=False, null=False)
+    # Add other fields as needed
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.country}"

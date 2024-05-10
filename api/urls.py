@@ -29,6 +29,7 @@ urlpatterns = [
     path("api/v1/auth/", include("djoser.urls")),
     path("api/v1/auth/", include("djoser.urls.jwt")),
     path("api/v1/profiles/", include("core_apps.profiles.urls")),
+    path("api/v1/common/", include("core_apps.common.urls")),
 ]
 
 admin.site.site_header = "Secure Backend Admin Site"
