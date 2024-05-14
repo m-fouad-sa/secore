@@ -2,7 +2,12 @@ from rest_framework import serializers
 from core_apps.profiles.serializers import ProfileSerializer
 from .models import *
 
-
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ["id", "name","country"]
+        
+        
 class SectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sector
@@ -44,7 +49,7 @@ class CategorySertializer(serializers.ModelSerializer):
 
         
 class ProjectSerializer(serializers.ModelSerializer):
-  
+    
     class Meta:
         model = Project
         fields = [

@@ -1,12 +1,10 @@
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
-from core_apps.profiles.models import Profile,Company
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from core_apps.profiles.models import Profile
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
+from django_countries.fields import CountryField
 
 # Create your models here.
 # User = get_user_model()
@@ -44,7 +42,7 @@ class Project(TimeStampedUUIDModel):
         "Domain", on_delete=models.CASCADE, blank=True, null=True
     )
     client = models.OneToOneField(
-        Company,
+        'Client',
         on_delete=models.CASCADE,
         verbose_name=_("Company"),
     )
@@ -255,3 +253,15 @@ class Domain(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Client(models.Model):
+    pkid = models.BigAutoField(primary_key=True, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    name = models.CharField(max_length=100)
+    country = CountryField(
+        verbose_name=_("country"), default="UK", blank=False, null=False)
+    # Add other fields as needed
+
+    def __str__(self):
+        return f"{self.name} {self.country}"

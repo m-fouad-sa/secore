@@ -1,16 +1,9 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Profile, Company
+from .models import Profile
 
 User = get_user_model
-
-
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = ["id","name"]
-
 
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
@@ -20,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
     profile_photo = serializers.SerializerMethodField()
     country = CountryField(name_only=True)
-    company = CompanySerializer()
+ 
     class Meta:
         model = Profile
         fields = [
@@ -36,7 +29,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "gender",
             "country",
             "city",
-            "company",
+    
         ]
 
     def get_full_name(self, obj):
@@ -52,8 +45,6 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
     country = CountryField(name_only=True)
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
-    #company = serializers.CharField(source="profile.company")
-    company = CompanySerializer()
 
 
     class Meta:
@@ -67,7 +58,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             "gender",
             "country",
             "city",
-            "company",
+     
         ]
 
     def update(self, instance, validated_data):
@@ -85,12 +76,6 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         
-        # Update company details if provided
-        company_data = validated_data.pop("profile", {})
-        if company_data:
-            company_name = company_data.get('company')
-            company_instance, _ = Company.objects.get_or_create(name=company_name)
-            instance.company = company_instance
 
         # Update other fields in UserProfile model if needed
         for attr, value in validated_data.items():

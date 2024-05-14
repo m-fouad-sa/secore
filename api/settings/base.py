@@ -43,6 +43,7 @@ LOCAL_APPS = [
     "core_apps.profiles",
     "core_apps.library",
     "core_apps.templates",
+    "core_apps.clients"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

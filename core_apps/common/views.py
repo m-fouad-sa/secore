@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
 from rest_framework import status
 from .models import *
 from .serializers import *
@@ -11,13 +11,14 @@ from .serializers import *
 class ProjectList(ListCreateAPIView):
     #queryset = Project.objects.select_related("applicant").all()
     serializer_class = ProjectSerializer
+    
     def get_queryset(self, *args, **kwargs):
-        return Project.objects.select_related("applicant").all()
+        return Project.objects.select_related("applicant").select_related("client").all()
 
 class ProjectDetail(RetrieveUpdateDestroyAPIView):
     lookup_field='id'
     queryset = Project.objects.all()
-    serializer_class = ProjectSerializer 
+    serializer_class = ProjectDetailSerializer 
       
 class StatusList(ListCreateAPIView):
     queryset = Status.objects.all()
@@ -66,3 +67,14 @@ class AttachmentDetail(RetrieveUpdateDestroyAPIView):
     queryset = Attachment.objects.all()
     serializer_class = AttachmentSerializer
     
+
+
+class ClientList(ListCreateAPIView):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    
+   
+class ClientDetail(RetrieveUpdateDestroyAPIView):
+    lookup_field='id'
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
