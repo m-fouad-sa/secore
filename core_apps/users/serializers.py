@@ -8,9 +8,9 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    first_name = serializers.SerializerMethodField()
-    last_name = serializers.SerializerMethodField()
-    full_name = serializers.SerializerMethodField()
+    #first_name = serializers.SerializerMethodField()
+    #last_name = serializers.SerializerMethodField()
+    #full_name = serializers.SerializerMethodField()
     gender = serializers.CharField(source="profile.gender")
     phone_number = PhoneNumberField(source="profile.phone_number")
     profile_photo = serializers.ReadOnlyField(source="profile.profile_photo")
@@ -33,16 +33,16 @@ class UserSerializer(serializers.ModelSerializer):
             "city",
         ]
 
-    def get_first_name(self, obj):
-        return obj.first_name.title()
+    # def get_first_name(self, obj):
+    #     return obj.first_name.title()
 
-    def get_last_name(self, obj):
-        return obj.last_name.title()
+    # def get_last_name(self, obj):
+    #     return obj.last_name.title()
 
-    def get_full_name(self, obj):
-        first_name = obj.user.first_name.title()
-        last_name = obj.user.last_name.title()
-        return f"{first_name} {last_name}"
+    # def get_full_name(self, obj):
+    #     first_name = obj.user.first_name.title()
+    #     last_name = obj.user.last_name.title()
+    #     return f"{first_name} {last_name}"
 
     def to_representation(self, instance):
         representation = super(UserSerializer, self).to_representation(instance)
@@ -54,4 +54,4 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ["id", "username", "email", "first_name", "last_name", "password"]
+        fields = ["id", "username", "email", "password"]

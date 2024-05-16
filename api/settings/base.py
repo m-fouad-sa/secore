@@ -35,6 +35,8 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "haystack",
     "drf_haystack",
+    "social_django",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 LOCAL_APPS = [
@@ -59,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "api.urls"
@@ -77,6 +80,8 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -198,23 +203,22 @@ SIMPLE_JWT = {
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
-
 DJOSER = {
     "LOGIN_FIELD": "email",
     "USER_CREATE_PASSWORD_RETYPE": True,
-    "USERNAME_CHANGED_EMAIL_CONFIMATION": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
     "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
     "SEND_CONFIRMATION_EMAIL": True,
-    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     "SET_PASSWORD_RETYPE": True,
-    "PASSWORD_RESET_CONFIRM_RETYPE": True,
-    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     "ACTIVATION_URL": "activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
+    "SOCIAL_AUTH_TOKEN_STRATEGY": "djoser.social.token.jwt.TokenStrategy",
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ["http://127.0.0.1:8080/api/v1/auth/callback/"],
     "SERIALIZERS": {
-        "user_create": "core_apps.users.serializers.CreateUserSerializer",
-        "user": "core_apps.users.serializers.UserSerializer",
-        "current_user": "core_apps.users.serializers.UserSerializer",
+        "user_create": "core_apps.users.serializers.UserCreateSerializer",
+        "user": "core_apps.users.serializers.UserCreateSerializer",
+        "current_user": "core_apps.users.serializers.UserCreateSerializer",
         "user_delete": "djoser.serializers.UserDeleteSerializer",
     },
 }
@@ -247,3 +251,25 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
+
+CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS", default=[])
+CORS_ALLOW_CREDENTIALS = True
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("GOOGLE_SECRET")
+
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+#     "https://www.googleapis.com/auth/userinfo.email",
+#     "https://www.googleapis.com/auth/userinfo.profile",
+#     "openid",
+# ]
+#SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name"]
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.amazon.AmazonOAuth2",
+    # This is required to make sure that normal token authentication works alongside social auth.
+    "django.contrib.auth.backends.ModelBackend",
+)

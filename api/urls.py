@@ -28,10 +28,14 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/v1/auth/", include("djoser.urls")),
     path("api/v1/auth/", include("djoser.urls.jwt")),
+    path("api/v1/auth/", include("djoser.social.urls")),
     path("api/v1/profiles/", include("core_apps.profiles.urls")),
     path("api/v1/common/", include("core_apps.common.urls")),
+    path("api/v1/cleints/", include("core_apps.clients.urls")),
 ]
 
 admin.site.site_header = "Secure Backend Admin Site"
 admin.site.site_title = "Secure Backend Portal"
 admin.site.index_title = "Welcome to the Secure Portal"
+
+

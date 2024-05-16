@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
+from core_apps.clients.models import Client
 import uuid
 
 
@@ -43,6 +44,12 @@ class Profile(TimeStampedUUIDModel):
     country = CountryField(
         verbose_name=_("country"), default="UK", blank=False, null=False
     )
+    
+    organization = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,null=True
+        )
+    
     city = models.CharField(
         verbose_name=_("city"),
         max_length=180,
@@ -54,8 +61,19 @@ class Profile(TimeStampedUUIDModel):
     profile_photo = models.ImageField(
         verbose_name=_("profile photo"), default="/profile_default.png"
     )
-
+    
+    role = models.OneToOneField('Role',on_delete=models.CASCADE,null=True)
+    
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} {self.user.email}"
-
-
+    
+    
+class Role(models.Model):
+    ROLE_CHOICES = (
+        ('editor', 'Editor'),
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    
+    def __str__(self):
+        return f"{self.role}"
+    
