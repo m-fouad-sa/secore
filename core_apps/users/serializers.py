@@ -8,9 +8,9 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    #first_name = serializers.SerializerMethodField()
-    #last_name = serializers.SerializerMethodField()
-    #full_name = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
     gender = serializers.CharField(source="profile.gender")
     phone_number = PhoneNumberField(source="profile.phone_number")
     profile_photo = serializers.ReadOnlyField(source="profile.profile_photo")

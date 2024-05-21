@@ -11,6 +11,7 @@ from .managers import CustomUserManager
 class User(AbstractBaseUser, PermissionsMixin):
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    
     username = models.CharField(
         verbose_name=_("username"), null=True, max_length=255, unique=True
     )
@@ -43,3 +44,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+
+
+class TwoFactorAuth(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    qr_code = models.TextField()
+    backup_codes = models.JSONField()  # Requires Django 3.1+
+    created_at = models.DateTimeField(auto_now_add=True)

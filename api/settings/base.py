@@ -16,7 +16,7 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    # "django.contrib.site",
+    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
@@ -37,6 +37,9 @@ THIRD_PARTY_APPS = [
     "drf_haystack",
     "social_django",
     "rest_framework_simplejwt.token_blacklist",
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
 ]
 
 LOCAL_APPS = [
@@ -51,6 +54,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -62,7 +66,10 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
+    'django_otp.middleware.OTPMiddleware',
+   
 ]
+
 
 ROOT_URLCONF = "api.urls"
 
@@ -135,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Europe/London"
+TIME_ZONE = "Africa/Cairo"
 
 USE_I18N = True
 
@@ -184,8 +191,10 @@ CELERY_RESULT_SERIALIZER = "json"
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "core_apps.common.exceptions.common_exception_handler",
     "NON_FIELD_ERRORS_KEY": "error",
+   
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
@@ -221,6 +230,8 @@ DJOSER = {
         "current_user": "core_apps.users.serializers.UserCreateSerializer",
         "user_delete": "djoser.serializers.UserDeleteSerializer",
     },
+    'TOKEN_MODEL': None,
+    'TOKEN_CREATE': 'users.views.CustomLoginView'
 }
 
 HAYSTACK_CONNECTIONS = {
@@ -259,17 +270,16 @@ CORS_ALLOW_CREDENTIALS = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("GOOGLE_CLIENT_ID")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("GOOGLE_SECRET")
 
-
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-#     "https://www.googleapis.com/auth/userinfo.email",
-#     "https://www.googleapis.com/auth/userinfo.profile",
-#     "openid",
-# ]
-#SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid",
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["first_name", "last_name"]
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.google.GoogleOAuth2",
-    "social_core.backends.amazon.AmazonOAuth2",
     # This is required to make sure that normal token authentication works alongside social auth.
     "django.contrib.auth.backends.ModelBackend",
 )
+SITE_ID = 1

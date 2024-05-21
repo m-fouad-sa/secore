@@ -4,7 +4,8 @@ from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-
+from djoser.views import TokenDestroyView
+from core_apps.users.views import CustomLoginView, Enable2FA, Disable2FA, Verify2FACode,Retrieve2FA
 schema_view = get_schema_view(
     openapi.Info(
         title="Snippets API",
@@ -29,6 +30,12 @@ urlpatterns = [
     path("api/v1/auth/", include("djoser.urls")),
     path("api/v1/auth/", include("djoser.urls.jwt")),
     path("api/v1/auth/", include("djoser.social.urls")),
+    path('api/v1/auth/login/', CustomLoginView.as_view(), name='custom-login'),
+    path('api/v1/auth/logout/', TokenDestroyView.as_view(), name='logout'),
+    path('api/v1/2fa/enable/', Enable2FA.as_view(), name='enable-2fa'),
+    path('api/v1/2fa/disable/', Disable2FA.as_view(), name='disable-2fa'),
+    path('api/v1/retrieve-2fa/', Retrieve2FA.as_view(), name='retrieve-2fa'),
+    path('api/v1/2fa/verify/', Verify2FACode.as_view(), name='verify-2fa'),
     path("api/v1/profiles/", include("core_apps.profiles.urls")),
     path("api/v1/common/", include("core_apps.common.urls")),
     path("api/v1/cleints/", include("core_apps.clients.urls")),
